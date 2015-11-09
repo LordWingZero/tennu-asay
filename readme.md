@@ -21,7 +21,7 @@ Requires [admin](https://tennu.github.io/plugins/admin).
  This is compatible with tennu-admin-cooldown (link comming soon). Install the cooldown plugin to let regular users run it every X seconds.
  
 ### License
-Copyright (c) 2015, Victorio Berra
+Copyright (c) 2015, LordZeroHour
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
