@@ -1,4 +1,4 @@
-# tennu-asay 1.0.0
+# tennu-asay 2.0.0
 
 A more advanced say command for the tennu IRC bot framework.
 
