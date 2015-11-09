@@ -119,7 +119,7 @@ var TennuSay = {
                     });
                 }
             },
-            commands: ["say"],
+            commands: ["asay"],
             help: {
                 "asay": [
                     "{{!}}asay [-c=#channel] [-<crwga>] <message>",
