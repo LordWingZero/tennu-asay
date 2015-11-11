@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Victorio Berra",
-  "license": "ISC",
+  "license": "WTFPL",
   "dependencies": {
     "bluebird": "^3.0.5",
     "irc-colors": "^1.2.0",
