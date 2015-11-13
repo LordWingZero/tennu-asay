@@ -1,6 +1,6 @@
 # tennu-asay 2.0.0
 
-A more advanced say command for the tennu IRC bot framework.
+A more advanced say command for the [tennu](https://github.com/Tennu/tennu) IRC bot framework.
 
 ### Features
 
