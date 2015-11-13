@@ -43,8 +43,13 @@ var TennuSay = {
 
         var isAdmin = imports.admin.isAdmin;
         if (adminCooldown) {
-            var cooldown = client.config("say").cooldown;
-            isAdmin = adminCooldown.isAdmin;
+            var cooldown = client.config("say")['cooldown'];
+            if (!cooldown) {
+                client._logger.warn('tennu-asay: Cooldown plugin found but no cooldown defined.')
+            }
+            else {
+                isAdmin = adminCooldown.isAdmin;
+            }
         }
 
         var minimistConfig = {
@@ -113,12 +118,12 @@ var TennuSay = {
             },
             commands: ["rainbow", "rainbow2", "greentext"],
             help: {
-                "rainbow" : helps.rainbow,
-                "sayr" : helps.rainbow,
-                "rainbow2" : helps.rainbow2,
-                "sayr2" : helps.rainbow2,
-                "greentext" : helps.greentext,
-                "sayg" : helps.greentext
+                "rainbow": helps.rainbow,
+                "sayr": helps.rainbow,
+                "rainbow2": helps.rainbow2,
+                "sayr2": helps.rainbow2,
+                "greentext": helps.greentext,
+                "sayg": helps.greentext
             }
         };
 
