@@ -10,6 +10,7 @@ function toRainbow(targetStr) {
     for (var i = 0; i < targetNoSpaces.length; i++) {
         letterArray.push((targetStr.length - i) % rainbowColorCodes.length);
     }
+    
     letterArray.sort();
 
     var j = 0;
