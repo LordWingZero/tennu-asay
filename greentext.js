@@ -15,6 +15,7 @@ function buildGreentext(greentextmax) {
         var responseMsg = choppedText.map(function(text) {
             return c.green('> ' + text.trim());
         });
+        
         return responseMsg;
     }
 }
