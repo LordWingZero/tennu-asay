@@ -62,6 +62,7 @@ var TennuSay = {
             }
             else {
                 isAdmin = adminCooldown(cooldown);
+                client._logger.notice('tennu-asay: cooldowns enabled: ' + cooldown + ' seconds.');
             }
         }
 

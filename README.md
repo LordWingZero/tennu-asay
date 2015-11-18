@@ -2,6 +2,8 @@
 
 A more advanced say command for the [tennu](https://github.com/Tennu/tennu) IRC bot framework.
 
+Optionally use [tennu-cooldown](https://github.com/LordWingZero/tennu-cooldown). Lets regular users run it every X seconds.
+
 Important: If youre using [tennu-control](https://github.com/Tennu/tennu) you must use commang-ignore-list to disable tennu-control's say command. Example:
 
 ```Javascript
@@ -35,7 +37,6 @@ See Downloadable Plugins here https://tennu.github.io/plugins/
 
 ### Plugins
 Requires [admin](https://tennu.github.io/plugins/admin).
- This is compatible with [tennu-admin-cooldown](https://github.com/LordWingZero/tennu-admin-cooldown). Install the cooldown plugin to let regular users run it every X seconds.
  
 ### Todo:
 - Tests
