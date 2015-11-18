@@ -29,6 +29,13 @@ const helps = {
         "-c=#channel",
         "Aliases: {{!}}sayg"
     ],
+
+    "say": [
+        "{{!}}say [-c=#channel] <message>",
+        "Says something to the channel.",
+        "Modifiers:",
+        "-c=#channel"
+    ]
 };
 
 var TennuSay = {
@@ -37,13 +44,19 @@ var TennuSay = {
 
         var adminCooldown = client._plugins.getRole("admin-cooldown");
 
+        var aSayConfig = client.config("asay");
+
+        if (!aSayConfig || !aSayConfig.hasOwnProperty("greentextmax")) {
+            throw Error("asay is missing some or all of its configuration.");
+        }
+
         var requiresAdminHelp = "Requires admin privileges.";
         const channels = client.config("channels");
-        const greentext = greentextBuilder(client.config("say").greentextmax);
+        const greentext = greentextBuilder(aSayConfig.greentextmax);
 
         var isAdmin = imports.admin.isAdmin;
         if (adminCooldown) {
-            var cooldown = client.config("say")['cooldown'];
+            var cooldown = aSayConfig['cooldown'];
             if (!cooldown) {
                 client._logger.warn('tennu-asay: Cooldown plugin found but no cooldown defined.')
             }
@@ -60,6 +73,10 @@ var TennuSay = {
         };
 
         function say(messageParser) {
+            if(!messageParser)
+            {
+                
+            }
             return function(command) {
                 return isAdmin(command.hostmask, "say").then(function(isadmin) {
 
@@ -114,16 +131,20 @@ var TennuSay = {
             handlers: {
                 "!sayr !rainbow": say(toRainbow),
                 "!sayr2 !rainbow2": say(c.rainbow),
-                "!sayg !greentext": say(greentext)
+                "!sayg !greentext": say(greentext),
+                "!say": say(function(text) {
+                    return text;
+                })
             },
-            commands: ["rainbow", "rainbow2", "greentext"],
+            commands: ["rainbow", "rainbow2", "greentext", "say"],
             help: {
                 "rainbow": helps.rainbow,
                 "sayr": helps.rainbow,
                 "rainbow2": helps.rainbow2,
                 "sayr2": helps.rainbow2,
                 "greentext": helps.greentext,
-                "sayg": helps.greentext
+                "sayg": helps.greentext,
+                "say": helps.say
             }
         };
 
