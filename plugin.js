@@ -42,7 +42,7 @@ var TennuSay = {
     requiresRoles: ["admin"],
     init: function(client, imports) {
 
-        var adminCooldown = client._plugins.getRole("admin-cooldown");
+        var adminCooldown = client._plugins.getRole("cooldown");
 
         var aSayConfig = client.config("asay");
 
@@ -61,7 +61,7 @@ var TennuSay = {
                 client._logger.warn('tennu-asay: Cooldown plugin found but no cooldown defined.')
             }
             else {
-                isAdmin = adminCooldown.isAdmin;
+                isAdmin = adminCooldown(cooldown);
             }
         }
 
@@ -73,20 +73,13 @@ var TennuSay = {
         };
 
         function say(messageParser) {
-            if(!messageParser)
-            {
-                
-            }
             return function(command) {
-                return isAdmin(command.hostmask, "say").then(function(isadmin) {
-
-                    if (!isadmin) {
-                        client._logger.warn('Unauthorized host `' + command.prefix + '` attempted command: `' + command.message + '`');
-                        return {
-                            intent: 'notice',
-                            query: true,
-                            message: requiresAdminHelp
-                        };
+                return isAdmin(command.hostmask).then(function(isadmin) {
+                    
+                    // isAdmin will be "undefined" if cooldown system is enabled
+                    // isAdmin will be true/false if cooldown system is disabled
+                    if (typeof(isAdmin) !== "undefined" && isAdmin === false) {
+                        throw new Error(requiresAdminHelp);
                     }
 
                     var sayArgs = parseArgs(command.args, minimistConfig);
@@ -114,7 +107,7 @@ var TennuSay = {
                         "target": target,
                         "message": messages
                     }
-                });
+                }).catch(adminFail);
             }
         }
 
@@ -127,6 +120,14 @@ var TennuSay = {
             }
         }
 
+        function adminFail(err) {
+            return {
+                intent: 'notice',
+                query: true,
+                message: err
+            };
+        }
+        
         return {
             handlers: {
                 "!sayr !rainbow": say(toRainbow),
