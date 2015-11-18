@@ -76,10 +76,10 @@ var TennuSay = {
         function say(messageParser) {
             return function(command) {
                 return isAdmin(command.hostmask).then(function(isadmin) {
-                    
-                    // isAdmin will be "undefined" if cooldown system is enabled
-                    // isAdmin will be true/false if cooldown system is disabled
-                    if (typeof(isAdmin) !== "undefined" && isAdmin === false) {
+
+                    // isadmin will be "undefined" if cooldown system is enabled
+                    // isadmin will be true/false if cooldown system is disabled
+                    if (typeof(isadmin) !== "undefined" && isadmin === false) {
                         throw new Error(requiresAdminHelp);
                     }
 
@@ -128,7 +128,7 @@ var TennuSay = {
                 message: err
             };
         }
-        
+
         return {
             handlers: {
                 "!sayr !rainbow": say(toRainbow),
