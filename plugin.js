@@ -1,5 +1,5 @@
 var parseArgs = require("minimist"),
-    promise = require('bluebird'),
+    Promise = require('bluebird'),
     toRainbow = require('./rainbow'),
     greentextBuilder = require('./greentext'),
     c = require('irc-colors');
@@ -76,17 +76,17 @@ var TennuSay = {
         function say(messageParser) {
             return function(command) {
                 return isAdmin(command.hostmask).then(function(isadmin) {
-
                     // isadmin will be "undefined" if cooldown system is enabled
                     // isadmin will be true/false if cooldown system is disabled
                     if (typeof(isadmin) !== "undefined" && isadmin === false) {
                         throw new Error(requiresAdminHelp);
                     }
-
+                })
+                .then(function(){
                     var sayArgs = parseArgs(command.args, minimistConfig);
                     var target = getTarget(sayArgs, command.channel);
+                    
                     var rawMessage = sayArgs._.join(' ');
-
                     var messages = messageParser(rawMessage);
 
                     // If the message parser returned an object, than we return it
@@ -96,19 +96,18 @@ var TennuSay = {
 
                     // Private message with no channel specified goes out to everyone
                     if (command.isQuery && !sayArgs.channel) {
-                        return Promise.each(channels, function(channel) {
-                            return {
-                                "target": channel,
-                                "message": messages
-                            }
+                        Promise.each(channels, function(channel) {
+                            client.say(channel, messages);
                         });
+                    } else {
+                        return {
+                            "target": target,
+                            "message": messages
+                        }                         
                     }
 
-                    return {
-                        "target": target,
-                        "message": messages
-                    }
-                }).catch(adminFail);
+                })
+                .catch(adminFail);
             }
         }
 
