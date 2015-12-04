@@ -1,6 +1,6 @@
 {
   "name": "tennu-asay",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "An advanced say command for the tennu IRC bot framework",
   "main": "plugin.js",
   "repository": {
