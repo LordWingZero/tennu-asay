@@ -7,7 +7,7 @@ var parseArgs = require("minimist"),
 // Will not change if 2 instances of tennu launched
 const helps = {
     "rainbow": [
-        "{{!}}rainbow [-c=#channel] <message>",
+        "{{!}}rainbow [-c=#channel] <message1/message2/message3>",
         "Says something to the channel in spread out rainbow text.",
         "Modifiers:",
         "-c=#channel",
