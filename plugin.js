@@ -89,11 +89,6 @@ var TennuSay = {
                     var rawMessage = sayArgs._.join(' ');
                     var messages = messageParser(rawMessage);
 
-                    // If the message parser returned an object, than we return it
-                    if (typeof(messages) === "object") {
-                        return messages;
-                    }
-
                     // Private message with no channel specified goes out to everyone
                     if (command.isQuery && !sayArgs.channel) {
                         Promise.each(channels, function(channel) {
