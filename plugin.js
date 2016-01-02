@@ -39,10 +39,7 @@ const helps = {
 };
 
 var TennuSay = {
-    requiresRoles: ["admin"],
     init: function(client, imports) {
-
-        var adminCooldown = client._plugins.getRole("cooldown");
 
         var aSayConfig = client.config("asay");
 
@@ -50,21 +47,8 @@ var TennuSay = {
             throw Error("asay is missing some or all of its configuration.");
         }
 
-        var requiresAdminHelp = "Requires admin privileges.";
         const channels = client.config("channels");
         const greentext = greentextBuilder(aSayConfig.greentextmax);
-
-        var isAdmin = imports.admin.isAdmin;
-        if (adminCooldown) {
-            var cooldown = aSayConfig['cooldown'];
-            if (!cooldown) {
-                client._logger.warn('tennu-asay: Cooldown plugin found but no cooldown defined.')
-            }
-            else {
-                isAdmin = adminCooldown(cooldown);
-                client._logger.notice('tennu-asay: cooldowns enabled: ' + cooldown + ' seconds.');
-            }
-        }
 
         var minimistConfig = {
             string: ['channel'],
@@ -75,34 +59,26 @@ var TennuSay = {
 
         function say(messageParser) {
             return function(command) {
-                return isAdmin(command.hostmask).then(function(isadmin) {
-                    // isadmin will be "undefined" if cooldown system is enabled
-                    // isadmin will be true/false if cooldown system is disabled
-                    if (typeof(isadmin) !== "undefined" && isadmin === false) {
-                        throw new Error(requiresAdminHelp);
-                    }
-                })
-                .then(function(){
-                    var sayArgs = parseArgs(command.args, minimistConfig);
-                    var target = getTarget(sayArgs, command.channel);
-                    
-                    var rawMessage = sayArgs._.join(' ');
-                    var messages = messageParser(rawMessage);
 
-                    // Private message with no channel specified goes out to everyone
-                    if (command.isQuery && !sayArgs.channel) {
-                        Promise.each(channels, function(channel) {
-                            client.say(channel, messages);
-                        });
-                    } else {
-                        return {
-                            "target": target,
-                            "message": messages
-                        }                         
-                    }
+                var sayArgs = parseArgs(command.args, minimistConfig);
+                var target = getTarget(sayArgs, command.channel);
 
-                })
-                .catch(adminFail);
+                var rawMessage = sayArgs._.join(' ');
+                var messages = messageParser(rawMessage);
+
+                // Private message with no channel specified goes out to everyone
+                if (command.isQuery && !sayArgs.channel) {
+                    Promise.each(channels, function(channel) {
+                        client.say(channel, messages);
+                    });
+                }
+                else {
+                    return {
+                        "target": target,
+                        "message": messages
+                    }
+                }
+
             }
         }
 
