@@ -39,13 +39,14 @@ const helps = {
 };
 
 var TennuSay = {
+    configDefaults: {
+        "asay": {
+            "greentextmax": 5
+        },
+    },
     init: function(client, imports) {
 
         var aSayConfig = client.config("asay");
-
-        if (!aSayConfig || !aSayConfig.hasOwnProperty("greentextmax")) {
-            throw Error("asay is missing some or all of its configuration.");
-        }
 
         const channels = client.config("channels");
         const greentext = greentextBuilder(aSayConfig.greentextmax);
