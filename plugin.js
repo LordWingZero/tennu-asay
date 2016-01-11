@@ -1,42 +1,8 @@
-var parseArgs = require("minimist"),
-    Promise = require('bluebird'),
-    toRainbow = require('./rainbow'),
-    greentextBuilder = require('./greentext'),
-    c = require('irc-colors');
-
-// Will not change if 2 instances of tennu launched
-const helps = {
-    "rainbow": [
-        "{{!}}rainbow [-c=#channel] <message1/message2/message3>",
-        "Says something to the channel in spread out rainbow text.",
-        "Modifiers:",
-        "-c=#channel",
-        "Aliases: {{!}}sayr"
-    ],
-
-    "rainbow2": [
-        "{{!}}rainbow2 [-c=#channel] <message>",
-        "Says something to the channel in rainbow text.",
-        "Modifiers:",
-        "-c=#channel",
-        "Aliases: {{!}}sayr2"
-    ],
-
-    "greentext": [
-        "{{!}}greentext [-c=#channel] <message>",
-        "Says something to the channel in 4chan style green quote-text.",
-        "Modifiers:",
-        "-c=#channel",
-        "Aliases: {{!}}sayg"
-    ],
-
-    "say": [
-        "{{!}}say [-c=#channel] <message>",
-        "Says something to the channel.",
-        "Modifiers:",
-        "-c=#channel"
-    ]
-};
+var parseArgs = require("minimist");
+var Promise = require('bluebird');
+var textFormat = require('irc-formatters');
+var c = require('irc-colors');
+const helps = require('./help');
 
 var TennuSay = {
     configDefaults: {
@@ -49,7 +15,7 @@ var TennuSay = {
         var aSayConfig = client.config("asay");
 
         const channels = client.config("channels");
-        const greentext = greentextBuilder(aSayConfig.greentextmax);
+        const greentext = textFormat.greentext(aSayConfig.greentextmax);
 
         var minimistConfig = {
             string: ['channel'],
@@ -102,7 +68,7 @@ var TennuSay = {
 
         return {
             handlers: {
-                "!sayr !rainbow": say(toRainbow),
+                "!sayr !rainbow": say(textFormat.rainbow),
                 "!sayr2 !rainbow2": say(c.rainbow),
                 "!sayg !greentext": say(greentext),
                 "!say": say(function(text) {

@@ -1,0 +1,32 @@
+{
+    "rainbow": [
+        "{{!}}rainbow [-c=#channel] <message1/message2/message3>",
+        "Says something to the channel in spread out rainbow text.",
+        "Modifiers:",
+        "-c=#channel",
+        "Aliases: {{!}}sayr"
+    ],
+
+    "rainbow2": [
+        "{{!}}rainbow2 [-c=#channel] <message>",
+        "Says something to the channel in rainbow text.",
+        "Modifiers:",
+        "-c=#channel",
+        "Aliases: {{!}}sayr2"
+    ],
+
+    "greentext": [
+        "{{!}}greentext [-c=#channel] <message>",
+        "Says something to the channel in 4chan style green quote-text.",
+        "Modifiers:",
+        "-c=#channel",
+        "Aliases: {{!}}sayg"
+    ],
+
+    "say": [
+        "{{!}}say [-c=#channel] <message>",
+        "Says something to the channel.",
+        "Modifiers:",
+        "-c=#channel"
+    ]
+}
