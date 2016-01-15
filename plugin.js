@@ -1,5 +1,6 @@
 var parseArgs = require("minimist");
 var Promise = require('bluebird');
+var _ = require('lodash');
 var textFormat = require('irc-formatters');
 var c = require('irc-colors');
 const helps = require('./help');
@@ -38,14 +39,27 @@ var TennuSay = {
                     Promise.each(channels, function(channel) {
                         client.say(channel, messages);
                     });
-                }
-                else {
-                    return {
-                        "target": target,
-                        "message": messages
-                    }
+                    return;
                 }
 
+                if (!_.isArray(messages)) {
+                    messages = [messages];
+                }
+
+                if (_.some(messages, function(message) {
+                        return (Buffer.byteLength(message, 'utf8') > 492);
+                    })) {
+                    return {
+                        intent: 'notice',
+                        query: true,
+                        message: 'Max message length exceeded. Remeber, color codes add a ton of length your messages.'
+                    };
+                }
+
+                return {
+                    "target": target,
+                    "message": messages
+                }
             }
         }
 
