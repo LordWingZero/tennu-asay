@@ -8,13 +8,12 @@ const helps = require('./help');
 var TennuSay = {
     configDefaults: {
         "asay": {
-            "greentextmax": 5
+            "greentextmax": 6
         },
     },
     init: function(client, imports) {
 
         var aSayConfig = client.config("asay");
-
         const channels = client.config("channels");
         const greentext = textFormat.greentext(aSayConfig.greentextmax);
 
@@ -40,6 +39,11 @@ var TennuSay = {
                         client.say(channel, messages);
                     });
                     return;
+                }
+
+                // If a parser returned a notice response, we treat it as an error;
+                if (_.has(messages, 'intent') && messages.intent === "notice"){
+                    return messages;
                 }
 
                 if (!_.isArray(messages)) {
